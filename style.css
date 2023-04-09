@@ -1,0 +1,71 @@
+html,body{
+    height: 100%;
+}
+*{
+    background-color: black;
+    color: whitesmoke;
+    font-family: Arial, Helvetica, sans-serif;
+    overflow: hidden;
+}
+body{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.home{
+    text-align: center;
+}
+h1{
+    font-size: 50px;
+}
+.buttongroup{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.questions{
+    align-items: center;
+    text-align: center;
+    margin: 50px;
+    
+}
+button {
+    background-color: white;
+    color: black;
+    border: none;
+    padding: 25px;
+    font-size: 40px;
+    cursor: pointer;
+    height: auto;
+    width: auto;
+    margin: 20px;
+    border-radius: 0%;
+}
+
+.easy:hover {
+    background-color: rgb(35, 80, 177);
+    color: white;
+    transition: 0.35s;
+}
+
+.medium:hover {
+    background-color: rgb(160, 5, 5);
+    color: white;
+    transition: 0.35s;
+}
+
+.hard:hover {
+    background-color: rgb(14, 141, 46);
+    color: white;
+    transition: 0.35s;
+}
+.back-button:hover{
+    background-color: rgb(35, 80, 177);
+    color: white;
+    transition: 0.35s;
+}
+.skip-button:hover{
+    background-color: rgb(14, 141, 46);
+    color: white;
+    transition: 0.35s;
+}

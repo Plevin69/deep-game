@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How deep will you go?</title>
+</head>
+<body>
+    
+    <div class="container">
+        <div class="home">
+            <h1>Choose your level:</h1>  
+            <div class="buttongroup">
+                <button class="level easy" data-level="1">Level 1</button>
+                <button class="level medium" data-level="2">Level 2</button>
+                <button class="level hard" data-level="3">Level 3</button>
+            </div>
+        </div>
+
+        <div class="questions" style="display:none;">
+            <h1 id="question">Question</h1>
+
+            <div class="questionsButtons">
+                <button class="back-button">Home</button>
+                <button class="skip-button">Next Question</button>
+            </div>
+            
+        </div>
+    </div>
+</body>
+<script>
+    const home = document.querySelector('.home');
+    const questions = document.querySelector('.questions');
+    const levelButtons = document.querySelectorAll('.level');
+    const backButton = document.querySelector('.back-button');
+    const skipButton = document.querySelector('.skip-button');
+    const question = document.querySelector('#question');
+
+    let currentLevel;
+
+    function showQuestions() {
+        home.style.display = 'none';
+        questions.style.display = 'block';
+    }
+
+    function showHome() {
+        questions.style.display = 'none';
+        home.style.display = 'block';
+    }
+
+    function getRandomQuestion(level) {
+        let questionsArray;
+        if (level === 1) {
+            questionsArray = [
+                'What\'s your favorite movie of all time?',
+                'What\'s your favorite TV show to binge-watch?',
+                'What\'s your favorite book or author?',
+                'What\'s your favorite type of music or band?',
+                'What\'s your favorite food or cuisine?',
+                'Do you have any hobbies? What are they?',
+                'What\'s your favorite sport to play or watch?',
+                'Do you enjoy making art? What kind?',
+                'Do you play any musical instruments?',
+                'Do you enjoy cooking or baking?',
+                'What\'s your favorite thing to make?',
+                'What\'s your favorite place that you\'ve visited?',
+                'Do you prefer adventure travel or relaxation on vacation?',
+                'What\'s your dream travel destination?',
+                'Have you ever traveled alone? How was it?',
+                'Do you prefer city or nature destinations?',
+                'What\'s your current job? What do you like about it?',
+                'What\'s the most interesting job you\'ve had?',
+                'What\'s your favorite subject in school or college?',
+                'Have you ever studied or worked abroad?',
+                'What\'s your career goal?',
+                'What\'s your personal goal for the next year?',
+                'What\'s your professional goal for the next year?',
+                'What\'s a long-term goal you have?',
+                'Do you have any travel goals?',
+                'Do you have any fitness or health goals?',
+                'Do you have any siblings? How many?',
+                'What\'s your favorite family tradition?',
+                'Do you have a close relationship with your parents?',
+                'Have you ever been to a family reunion?',
+                'What\'s the best thing about your family?',
+                'Are you an introvert or extrovert?',
+                'What\'s your leadership style?',
+                'Do you prefer to work alone or in a team?',
+                'What\'s your problem-solving approach?',
+                'What\'s your communication style?',
+                'Do you have any pets? What kind?',
+                'What\'s your favorite animal?',
+                'Have you ever adopted a pet from a shelter?',
+                'Do you like big dogs or small dogs?',
+                'Do you prefer cats or dogs?',
+                'What\'s your earliest childhood memory?',
+                'What did you want to be when you grew up?',
+                'What was your favorite childhood toy?',
+                'Did you have any imaginary friends?',
+                'What\'s the craziest thing you did as a kid?',
+                'What\'s your favorite app on your phone?',
+                'What social media platform do you use the most?',
+                'What\'s your favorite gadget?',
+                'Have you ever built your own computer?',
+                'Are you an Apple or an Android person?',
+                'What is your favourite music genre?',
+                'Have you ever been to a concert before? If so, who did you see?',
+                'Do you play any musical instruments? If not, is there one you wish you could play?',
+                'Have you ever created a playlist for a specific mood or occasion? What was it for?',
+                'If you could attend any music festival in the world, which one would it be?',
+                'What is the last song you listened to?',
+                'Can you name a song that you know all the lyrics to?',
+                'What is your favorite music video of all time?',
+                'Have you ever played any music-based video games, like Guitar Hero or Rock Band?'
+            ];
+        } else if (level === 2) {
+            questionsArray = [
+                "What is a decision you made in the past that you regret?",
+                "If you could go back in time, what is one thing you would change about your past?",
+                "Have you ever hurt someone and regretted it?",
+                "What is your biggest fear?",
+                "Do you have any phobias?",
+                "Have you ever faced your biggest fear?",
+                "What is a secret that you've never told anyone?",
+                "Have you ever kept a secret from someone close to you?",
+                "What is something that you're keeping a secret from yourself?",
+                "What is the biggest challenge you've faced in your life?",
+                "How did you overcome a difficult challenge in your life?",
+                "Have you ever faced a challenge that you thought was impossible to overcome?",
+                "What is the biggest mistake you've made in your life?",
+                "What did you learn from a mistake that you made?",
+                "Have you ever made the same mistake more than once?",
+                "What did you learn from your first romantic relationship?",
+                "What is one thing you wish you could have done differently in a past relationship?",
+                "Have you ever had to end a friendship? What happened?",
+                "What is the most embarrassing moment of your life?",
+                "Have you ever done something embarrassing in public?",
+                "What is something embarrassing that happened to you that you still think about?",
+                "What is something you're insecure about?",
+                "Have you ever had to confront your own insecurities?",
+                "How do you cope with feeling insecure?",
+                "What is a significant loss you've experienced in your life?",
+                "How did you cope with a significant loss in your life?",
+                "What did you learn from experiencing a significant loss?",
+                "What is a personal struggle you've faced?",
+                "How did you cope with a personal struggle?",
+                "What did you learn from overcoming a personal struggle?",
+                "What is a decision you made in the past that you regret and why?",
+                "What is a fear or phobia that you have, and how does it impact your life?",
+                "What is a secret that you have never shared before?",
+                "What is a challenge or obstacle that you have faced and how did you overcome it?",
+                "What is a mistake that you made in the past, and what did you learn from it?",
+                "What is a past romantic relationship that you regret, and what did you learn from it?",
+                "What is an embarrassing moment that you experienced, and how did you handle it?",
+                "What is an insecurity that you have, and how do you cope with it?",
+                "What is a significant loss that you have experienced, and how did it affect you?",
+                "What is a personal struggle that you have faced, and how did you overcome it?",
+                "What is a challenge that you are currently facing in your life, and how are you working to overcome it?",
+                "What is a mistake that you are currently making, and what are you learning from it?",
+                "What is a past friendship that you regret, and what did you learn from it?",
+                "What is an embarrassing moment from your childhood that still makes you cringe?",
+                "What is an insecurity that you have had since childhood, and how do you manage it?",
+                "What is a past professional decision that you regret, and what did you learn from it?",
+                "What is a fear that you had to overcome, and how did you overcome it?",
+                "What is a secret talent or hobby that you have never shared with anyone before?",
+                "What is a challenge that you faced in your education, and how did you overcome it?",
+                "What is a mistake that you made in your career, and what did you learn from it?",
+                "What is a past friendship that you lost and regret, and what did you learn from it?",
+                "What is an embarrassing moment that you experienced at a social event, and how did you handle it?",
+                "What is an insecurity that you have about your appearance, and how do you cope with it?",
+                "What is a significant loss that you have experienced in your career, and how did it affect you?",
+                "What is a personal struggle that you have faced in your relationships, and how did you cope with it?",
+                "What is a challenge that you faced while traveling, and how did you overcome it?",
+                "What is a mistake that you made while managing your finances, and what did you learn from it?",
+                "What is a past romantic relationship that you are still not over, and why?",
+                "What is an embarrassing moment that you experienced on a date, and how did you handle it?",
+                "What is an insecurity that you have about your personality, and how do you manage it?",
+                "What is a significant loss that you have experienced in your personal life, and how did it affect you?",
+                "What is a personal struggle that you have faced in your mental health, and how did you cope with it?",
+                "What is a challenge that you faced while pursuing a personal goal, and how did you overcome it?",
+                "What is a mistake that you made while communicating with someone, and what did you learn from it?",
+                "What is a past friendship that you ended, and why?",
+                "What is an embarrassing moment that you experienced in front of your family, and how did you handle it?"
+            ];
+        } else if (level === 3) {
+            questionsArray = [
+                'What is your biggest regret in life?',
+                'What do you think is your purpose in life?',
+                'What is your biggest fear in life?',
+                'If you could change one thing about yourself, what would it be?',
+                'What do you think is the most important thing in a relationship?',
+                'What do you think is the most important thing in a friendship?',
+                'What do you think is the biggest challenge facing society today?',
+                'What is your biggest insecurity?',
+                "What are some of the most important qualities you look for in a partner or friend, and why are they important to you?",
+                "What are some of the most significant cultural or societal issues that concern you, and how do you contribute to addressing them?",
+                "What is your personal vision for your future, and how are you working towards making it a reality?",
+                "How do you define success, and what motivates you to achieve it?",
+                "What do you believe is the meaning of life, and how do you find meaning in your own life?",
+                "What are some of your core beliefs, and how have they influenced your life choices?",
+                "What do you think is your purpose in life, and how are you working towards fulfilling it?",
+                "How do you handle adversity, and what lessons have you learned from difficult experiences?",
+                "What is your relationship with vulnerability, and how do you practice vulnerability in your relationships?",
+                "What is your understanding of empathy, and how do you cultivate empathy in your interactions with others?",
+                "What is your perception of reality, and how do you reconcile different perspectives with your own?",
+                "What is your relationship with spirituality, and how does it impact your worldview?",
+                "What are some of your greatest fears, and how do you manage them?",
+                "How do you cope with change, and what strategies do you use to adapt to new situations?",
+                "What are some of your personal insecurities, and how do you overcome them?",
+                "What have been some of the most significant losses in your life, and how have they affected you?",
+                "How do you evaluate your personal growth, and what practices do you use for self-reflection?",
+                "How do you handle criticism, and what strategies do you use to learn from it?",
+                "What are some of the most important lessons you have learned from your past relationships?",
+                "What is your approach to forgiveness, and how do you forgive those who have hurt you?",
+                "What have been some of the most transformative experiences in your life, and how have they changed you?",
+                "How do you cope with failure, and what lessons have you learned from unsuccessful experiences?",
+                "How do you handle success, and what strategies do you use to stay grounded?",
+                "What is your relationship with mortality, and how do you cope with the knowledge of your own mortality?",
+                "What are some of the biggest challenges you have faced in your life, and how have you overcome them?",
+                "What are some of your personal strengths, and how have they helped you in your life?",
+                "What are some of the biggest risks you have taken, and what did you learn from those experiences?",
+                "What are some of your most deeply held values, and how do you incorporate them into your life?",
+                "How do you approach personal growth, and what strategies do you use to continue learning?",
+                "What are some of your biggest regrets, and how have they influenced your life choices?",
+                "How do you handle rejection, and what strategies do you use to cope with it?",
+                "What is your approach to problem-solving, and how do you find creative solutions to challenges?",
+                "How do you prioritize your mental health, and what practices do you use to maintain your well-being?",
+                "What are some of your personal biases, and how do you work to overcome them?",
+                "What are some of your core personal boundaries, and how do you enforce them?",
+                "What are some of your favorite ways to show love and appreciation to the people in your life?",
+                "What are some of the biggest misconceptions people have about you, and how do you work to correct them?",
+                "How do you deal with uncertainty, and what strategies do you use to navigate unpredictable situations?",
+                "What is your understanding of love, and how has it influenced your romantic relationships?"
+            ];
+        }
+        const randomIndex = Math.floor(Math.random() * questionsArray.length);
+        return questionsArray[randomIndex];
+    }
+
+    function showQuestion() {
+        question.textContent = getRandomQuestion(currentLevel);
+    }
+
+    levelButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+            currentLevel = parseInt(button.dataset.level);
+            showQuestions();
+            showQuestion();
+        });
+    });
+
+    backButton.addEventListener('click', () => {
+        showHome();
+    });
+
+    skipButton.addEventListener('click', () => {
+        showQuestion();
+    });
+
+
+</script>
+</html>
